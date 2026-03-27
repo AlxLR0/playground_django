@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hola mundo</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %} Landing Page{% endblock %}
+
+{% block content %}
     <h1>hola {{name | upper}}</h1>
     <p>la fecha de hoy es {{today | date:'d/m/Y'}}</p>
 
@@ -32,5 +29,4 @@
             <li>No hay tecnologias</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}
