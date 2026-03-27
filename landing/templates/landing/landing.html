@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hola mundo</title>
+</head>
+<body>
+    <h1>hola {{name | upper}}</h1>
+    <p>la fecha de hoy es {{today | date:'d/m/Y'}}</p>
+
+    {% if age >= 18 %}
+        <p>eres mayor de edad</p>
+    {% else %}
+        <p>eres menor de edad</p>
+    {% endif %}
+
+    <ul>
+        {% for fruit in fruits %}
+            <li>{{fruit}}</li>
+        {% empty %} 
+            <li>No hay frutas</li>
+        {% endfor %}
+    </ul>
+
+    <p>el primer elemento es {{fruits.0}}</p>
+    
+    <ul>
+        {% for item in stack %}
+            <li><a href="{% url 'stack' item.id  %}"> {{item.name}}</a></li>
+        {% empty %} 
+            <li>No hay tecnologias</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
