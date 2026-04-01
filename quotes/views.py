@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
+from django.urls import reverse
 
 
 # Create your views here.
@@ -16,7 +17,10 @@ days_quotes = {
 }
 
 def index(request):
-    return HttpResponse("Hello World")
+    days = list(days_quotes.keys())  # Use the dictionary, not the function
+    return render(request, "quotes/quotes.html", {
+        "days": days
+    })
 
 def monday(request):
     return HttpResponse("Hello monday")
@@ -29,4 +33,6 @@ def days_week(request, day): # esta funcion lo que hace es recibir un parametro 
         quote_text = days_quotes[day] # aqui quote_text es igual a days_quotes donde [day] es la clave que se recibe como parametro y se busca en el diccionario days_quotes
         return HttpResponse(quote_text) # devuelve la frase 
     except Exception:
-        return HttpResponseNotFound("No existe ese dia") # si no existe el dia, devuelve un error 404
+        return render(request, "404.html") # si no existe el dia, devuelve un error 404
+        # raise Http404() esto es para mandar el error 404 con todo y status 404 en consola pero esto solo se usa sin el modo debug (o que se necesita estar en producion)
+
