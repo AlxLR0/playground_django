@@ -19,6 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('quotes/', include('quotes.urls')), #esto lo que hace es incluir todas las rutas de la carpeta quotes.urls
     path('landing/', include('landing.urls')), #esto lo que hace es incluir todas las rutas de la carpeta landing.urls
     path('minilibrary/', include('minilibrary.urls')), #esto lo que hace es incluir todas las rutas de la carpeta minilibrary.urls
