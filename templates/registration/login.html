@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Iniciar Sesión</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Entrar</button>
+        
+        <!-- Para volver a donde estaba después de hacer login -->
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+</div>
+{% endblock %}

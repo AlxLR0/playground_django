@@ -43,7 +43,7 @@ def index(request):
     })
 
 
-@login_required
+#@login_required
 def add_review(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     form = ReviewForm(request.POST or None)
