@@ -1,3 +1,4 @@
+from django.views.generic import TemplateView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseNotFound
 from .models import Book, Review, Recomendation
@@ -7,9 +8,27 @@ from .forms import ReviewForm
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.views import View
+from django.views.generic import View
 
 
 User = get_user_model()
+
+#para usar el class base view
+class Hello(View):
+    def get(self,request):
+        return HttpResponse("hello")
+
+class WelcomeView(TemplateView):
+    template_name = "minilibrary/welcome.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total_books"] = Book.objects.count()
+        return context
+
+   
 
 
 def index(request):
