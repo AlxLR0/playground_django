@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import View
+from django.views.generic import TemplateView, ListView
 
 
 User = get_user_model()
@@ -27,6 +27,11 @@ class WelcomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["total_books"] = Book.objects.count()
         return context
+
+class BookListView(ListView):
+    model = Book
+    template_name = "minilibrary/book_list.html"
+    paginate_by = 5
 
    
 
