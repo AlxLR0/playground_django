@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ book.title }}</h2>
+<p><strong>Autor:</strong> {{ book.author.name }}</p>
+<p><strong>Paginas:</strong> {{ book.pages }}</p>
+<p><strong>Fecha de publicación:</strong> {{ book.publication_date }}</p>
+<p><strong>ISBN:</strong> {{ book.isbn }}</p>
+
+{% if book.detail %}
+    <p><strong>Resumen:</strong> {{ book.detail.summary }}</p>
+    <p><Strong>idioma:</Strong> {{ book.detail.language }}</p>
+{% endif %}
+
+<a href="{% url 'book_list'%}">volver a la lista</a>
+
+{% endblock content%}
