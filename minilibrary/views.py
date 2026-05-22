@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic import TemplateView, ListView ,DetailView
-
+import time
 
 User = get_user_model()
 
@@ -158,3 +158,9 @@ def add_review(request, book_id):
         "form": form,
         "book": book
     })
+
+
+def timeTest(request):
+    
+    time.sleep(2)
+    return HttpResponse("Tiempo de respuesta simulado de 2 segundos.")

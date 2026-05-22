@@ -16,12 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
+
+
+def time_test(request):
+    return HttpResponse("time test ok")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('quotes/', include('quotes.urls')), #esto lo que hace es incluir todas las rutas de la carpeta quotes.urls
     path('landing/', include('landing.urls')), #esto lo que hace es incluir todas las rutas de la carpeta landing.urls
-    #path('books/', include('minilibrary.urls')),
+    path('', include('minilibrary.urls')),
+    path('time-test/', time_test),
     path('minilibrary/', include('minilibrary.urls')), #esto lo que hace es incluir todas las rutas de la carpeta minilibrary.urls
 ]
