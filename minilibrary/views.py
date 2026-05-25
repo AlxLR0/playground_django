@@ -35,11 +35,26 @@ class BookListView(ListView):
     paginate_by = 5
     context_object_name = "books"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        last_book_id = self.request.session.get('last_book_viewed')
+        if last_book_id:
+            try:
+                context['last_book_viewed'] = Book.objects.get(pk=last_book_id)
+            except Book.DoesNotExist:
+                context['last_book_viewed'] = None
+        return context
+
 
 class BookDetailView(DetailView):
     model = Book
     template_name = "minilibrary/book_detail.html"
     context_object_name = "book"
+
+    def get (self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        request.session['last_book_viewed'] = self.object.id
+        return response
 
 class ReviewCreateView(CreateView):
     model = Review
@@ -99,6 +114,7 @@ def index(request):
     query = request.GET.get("query_search")
     date_start = request.GET.get("start")
     date_end = request.GET.get("end")
+    book_id_recomended = request.GET.get("last_book_viewed")
 
     if query:
         books = books.filter(
@@ -117,6 +133,13 @@ def index(request):
     if "page" in query_params:
         query_params.pop("page")
     query_string = query_params.urlencode()
+
+    if book_id_recomended:
+        try:
+            last_book = Book.objects.get(id=book_id_recomended)
+        except Book.DoesNotExist:
+            last_book = None
+        
 
     return render(request, "minilibrary/minilibrary.html", {
         "page_obj": page_obj,
@@ -156,7 +179,8 @@ def add_review(request, book_id):
 
     return render(request, "minilibrary/add_review.html", {
         "form": form,
-        "book": book
+        "book": book,
+        "last_book": last_book,
     })
 
 
@@ -164,3 +188,12 @@ def timeTest(request):
     
     time.sleep(2)
     return HttpResponse("Tiempo de respuesta simulado de 2 segundos.")
+
+
+
+def visit_counter(request):
+    count = request.session.get('visitas', 0)
+    count += 1
+    request.session['visitas'] = count
+    return HttpResponse(f"Has visitado esta página {count} veces.")
+

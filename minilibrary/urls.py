@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('', views.index, name='minilibrary'),
     path('recomendar/<int:book_id>', views.add_review, name="recommend_book"),
@@ -14,6 +15,6 @@ urlpatterns = [
          views.ReviewUpdateView.as_view(), name="edit_review"),
     path('review/<int:pk>/delete/',
          views.ReviewDeleteView.as_view(), name="delete_review"),
-     path('time-test/', views.timeTest, name="time_test"),
+ 
 
 ]

@@ -4,8 +4,16 @@
 
 <h1>Book List</h1>
 
+{% if last_book_viewed %}
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-left: 5px solid #764ba2;">
+    <p style="margin: 0; color: #fff; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9;">📖 Último libro visitado</p>
+    <a href="{% url 'book_detail' last_book_viewed.id %}" style="display: inline-block; margin-top: 10px; color: #fff; text-decoration: none; font-size: 18px; font-weight: bold; transition: all 0.3s ease;">{{ last_book_viewed.title }}</a>
+    <p style="margin: 8px 0 0 0; color: rgba(255, 255, 255, 0.95); font-size: 14px;">por <strong>{{ last_book_viewed.author.name }}</strong></p>
+</div>
+{% endif %}
+
 {% for book in books %}
-    <li><strong>{{ book.title }}</strong> -{{book.author.name}}</li>
+    <li><strong>{{ book.title }}</strong> - {{book.author.name}}</li>
 {% empty %}
     <p>No books available.</p>
 {% endfor %}

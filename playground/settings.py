@@ -132,3 +132,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+#esti es para redireccionar al usuario despues de hacer login, en este caso a la lista de libros
+LOGIN_REDIRECT_URL = 'book_list'

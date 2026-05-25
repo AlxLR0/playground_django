@@ -11,4 +11,11 @@
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 </div>
+
+{% if last_book%}
+    <p>Ultimo libro visitado: <a href="{% url 'book_detail' last_book.id %}">{{ last_book.title }}</a></p>
+{% else %}
+    <p>No has visitado ningún libro aún.</p>
+{% endif %}
+
 {% endblock %}
