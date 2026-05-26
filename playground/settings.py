@@ -133,5 +133,10 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-#esti es para redireccionar al usuario despues de hacer login, en este caso a la lista de libros
+#esto es para redireccionar al usuario a la pagina de login si intenta acceder a una vista que requiere autenticacion y no esta logueado
+LOGIN_URL = 'login'
+
+#esto es para redireccionar al usuario despues de hacer login, en este caso a la lista de libros
 LOGIN_REDIRECT_URL = 'book_list'
+LOGOUT_REDIRECT_URL = 'login'
+

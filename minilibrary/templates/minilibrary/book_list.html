@@ -18,4 +18,10 @@
     <p>No books available.</p>
 {% endfor %}
 
+
+<form action="{% url "logout" %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
 {% endblock %}

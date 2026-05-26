@@ -12,7 +12,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic import TemplateView, ListView ,DetailView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import time
+
 
 User = get_user_model()
 
@@ -45,8 +48,8 @@ class BookListView(ListView):
                 context['last_book_viewed'] = None
         return context
 
-
-class BookDetailView(DetailView):
+#LoginRequiredMixin lo que hace es que el usuario tiene que estar logueado para poder acceder a esta vista, si no esta logueado lo redirecciona a la pagina de login, se tiene que modificar en settings.py el LOGIN_URL para que redireccione a la pagina de login, en este caso se puso 'login' porque es el nombre de la ruta que se puso en urls.py para la vista de login
+class BookDetailView(LoginRequiredMixin,DetailView):
     model = Book
     template_name = "minilibrary/book_detail.html"
     context_object_name = "book"
@@ -107,8 +110,9 @@ class ReviewDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
    
-
-
+#este decorador lo que hace es que el usuario tiene que estar logueado para poder acceder a esta vista, si no esta logueado lo redirecciona a la pagina de login
+#se tiene que modificar en settings.py el LOGIN_URL para que redireccione a la pagina de login, en este caso se puso 'login' porque es el nombre de la ruta que se puso en urls.py para la vista de login
+@login_required
 def index(request):
     books = Book.objects.all()
     query = request.GET.get("query_search")
