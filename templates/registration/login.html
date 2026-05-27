@@ -1,17 +1,260 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Iniciar Sesión{% endblock %}
 
+{% block header %}{% endblock %}
+
+{% block page_styles %}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        height: 100%;
+    }
+
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .login-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 50px 30px;
+        text-align: center;
+    }
+
+    .login-header h1 {
+        margin: 0;
+        font-size: clamp(24px, 5vw, 32px);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .login-header p {
+        margin: 8px 0 0 0;
+        font-size: clamp(12px, 3vw, 14px);
+        opacity: 0.95;
+    }
+
+    .library-icon {
+        font-size: clamp(36px, 8vw, 48px);
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+
+    .login-body {
+        padding: clamp(30px, 5vw, 40px);
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+        font-size: clamp(13px, 2.5vw, 14px);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: clamp(14px, 2.5vw, 15px);
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .error-message {
+        background-color: #fee;
+        border-left: 4px solid #f44336;
+        color: #c62828;
+        padding: 12px 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: clamp(12px, 2vw, 14px);
+    }
+
+    .error-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .error-list li {
+        padding: 5px 0;
+    }
+
+    .login-button {
+        width: 100%;
+        padding: 13px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: clamp(14px, 2.5vw, 16px);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .login-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    }
+
+    .login-button:active {
+        transform: translateY(0);
+    }
+
+    .form-footer {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .form-footer p {
+        margin: 0;
+        color: #666;
+        font-size: clamp(12px, 2vw, 13px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .login-header {
+            padding: 40px 25px;
+        }
+
+        .login-body {
+            padding: 30px 25px;
+        }
+
+        .login-card {
+            margin: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .login-header {
+            padding: 30px 20px;
+        }
+
+        .login-body {
+            padding: 25px 20px;
+        }
+
+        .form-group input {
+            padding: 10px 12px;
+        }
+
+        .login-button {
+            padding: 11px;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h2>Iniciar Sesión</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Entrar</button>
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="library-icon">📚</div>
+            <h1>MiniLibrary</h1>
+            <p>Tu biblioteca digital personal</p>
+        </div>
         
-        <!-- Para volver a donde estaba después de hacer login -->
-        <input type="hidden" name="next" value="{{ next }}">
-    </form>
+        <div class="login-body">
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    <strong>Error de autenticación:</strong>
+                    <ul class="error-list">
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Nombre de usuario</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="error-message">
+                            {% for error in form.username.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <div class="error-message">
+                            {% for error in form.password.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <input type="hidden" name="next" value="{{ next }}">
+                
+                <button type="submit" class="login-button">🔓 Iniciar Sesión</button>
+            </form>
+
+            <div class="form-footer">
+                <p>💡 Usa tus credenciales para acceder a tu biblioteca</p>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -16,6 +16,7 @@
     {% block page_styles %} {% endblock %}
   </head>
   <body>
+    {% block header %}
     <div class="container mt-3">
       <h1>MiniLibrary</h1>
       {% if messages %} {% for message in messages %}
@@ -33,6 +34,7 @@
       </div>
       {% endfor %} {% endif %}
     </div>
+    {% endblock %}
 
     {% block content %} {% endblock %}
 
