@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
 from django.contrib.auth.views import LoginView, LogoutView
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 def time_test(request):
@@ -34,3 +36,7 @@ urlpatterns = [
     path('time-test/', time_test),
     path('minilibrary/', include('minilibrary.urls')), #esto lo que hace es incluir todas las rutas de la carpeta minilibrary.urls
 ]
+
+# Servir archivos media en desarrollo
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

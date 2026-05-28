@@ -24,6 +24,7 @@ class Book(models.Model):
     isbn = models.CharField(max_length=50, default='0000')
     genres = models.ManyToManyField(Genre, related_name='books')
     recomended_by = models.ManyToManyField(get_user_model(), through='Recomendation', related_name='recomendations')
+    cover = models.ImageField(upload_to='books/covers/', null=True, blank=True)
 
 
     def __str__(self):

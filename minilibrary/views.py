@@ -5,7 +5,7 @@ from django.http import HttpResponseNotFound
 from .models import Book, Review, Recomendation
 from django.db.models import Q
 from django.core.paginator import Paginator
-from .forms import ReviewForm
+from .forms import BookForm, ReviewForm
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -201,3 +201,19 @@ def visit_counter(request):
     request.session['visitas'] = count
     return HttpResponse(f"Has visitado esta página {count} veces.")
 
+
+def add_book(request):
+    if request.method == "POST":
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Libro agregado correctamente.")
+            return redirect("book_list")
+        else:
+            messages.error(request, "Corrige los errores del formulario.", "danger")
+    else:
+        form = BookForm()
+
+    return render(request, "minilibrary/add_book.html", {
+        "form": form
+    })

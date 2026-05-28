@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -139,4 +140,10 @@ LOGIN_URL = 'login'
 #esto es para redireccionar al usuario despues de hacer login, en este caso a la lista de libros
 LOGIN_REDIRECT_URL = 'book_list'
 LOGOUT_REDIRECT_URL = 'login'
+
+#esto es para configurar el manejo de archivos media, en este caso las portadas de los libros
+MEDIA_URL = '/media/'
+#esto es para configurar la ruta donde se guardaran los archivos media, en este caso dentro de la carpeta media en el directorio base del proyecto
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 

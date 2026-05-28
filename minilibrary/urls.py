@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 urlpatterns = [
@@ -15,6 +18,10 @@ urlpatterns = [
          views.ReviewUpdateView.as_view(), name="edit_review"),
     path('review/<int:pk>/delete/',
          views.ReviewDeleteView.as_view(), name="delete_review"),
+     path('books/add/', views.add_book, name="add_book"),
  
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

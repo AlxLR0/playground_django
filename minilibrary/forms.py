@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review
+from .models import Book, Review
 
 BAD_WORDS = ["malo", "mugroso", "estupido", "wey", "todo wey", "gonorrea"]
 
@@ -74,3 +74,19 @@ class ReviewForm(forms.ModelForm):
             review.save()
 
         return review
+    
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'publication_date', 'author', 'pages', 'isbn', 'genres', 'cover']
+    
+    def clean_cover(self):
+        cover = self.cleaned_data.get('cover')
+        if cover:
+            if cover.size > 2 * 1024 * 1024:  # Limite de 2MB
+                raise forms.ValidationError("La imagen de portada no puede ser mayor a 2MB.")
+            
+            if not cover.content_type in ['image/jpeg', 'image/png']:
+                raise forms.ValidationError("La imagen de portada debe ser JPEG o PNG.")
+        
+        return cover
